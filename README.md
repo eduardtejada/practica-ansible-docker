@@ -68,7 +68,7 @@ docker exec -it server1 id itla
 ```
 
 ### 5. Detener el laboratorio
-Cuando finalices la práctica, puedes apagar los servidores con:
+Puedes apagar los servidores con:
 ```bash
 docker compose down
 ```
