@@ -1,0 +1,15 @@
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Instalar Ansible, cliente SSH y sshpass (necesario para autenticación por contraseña en Ansible)
+RUN apt-get update && apt-get install -y \
+    ansible \
+    sshpass \
+    openssh-client \
+    iputils-ping \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /ansible
+
+CMD ["ansible-playbook", "playbook.yml"]

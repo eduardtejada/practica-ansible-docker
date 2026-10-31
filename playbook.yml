@@ -1,0 +1,43 @@
+---
+- name: Automatización de Servidores Ubuntu con Ansible - Práctica 8
+  hosts: servidores
+  become: true
+  tasks:
+    - name: 1. Actualizar caché de APT del sistema operativo
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: 2. Crear el usuario 'itla' en cada servidor
+      user:
+        name: itla
+        state: present
+        shell: /bin/bash
+        create_home: true
+
+    - name: 3. Crear una carpeta llamada 'app'
+      file:
+        path: /app
+        state: directory
+        owner: itla
+        group: itla
+        mode: '0755'
+
+    - name: 4. Crear un archivo hola.txt en la carpeta app en cada servidor
+      copy:
+        dest: /app/hola.txt
+        content: |
+          ¡Hola Mundo desde Ansible!
+          Servidor: {{ inventory_hostname }}
+          Dirección IP: {{ ansible_host }}
+          Práctica 8 realizada con éxito.
+        owner: itla
+        group: itla
+        mode: '0644'
+
+    - name: 5. Instalar las aplicaciones 'cowsay' y 'htop' en cada servidor
+      apt:
+        name:
+          - cowsay
+          - htop
+        state: present
